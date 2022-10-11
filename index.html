@@ -63,7 +63,7 @@
                 cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);*/
           }
 
-          if (faces.size() > 0 && !isShowed) {
+          if (faces.size() > 0) {
             isShowed = true;
             cv.imshow(canvasOutput, croppedFaces[0]);
             const base64 = canvasOutput.toDataURL();
