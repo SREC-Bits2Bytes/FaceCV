@@ -23,6 +23,7 @@
           .catch(function (err) {
             console.log("An error occurred! " + err);
           });
+        var check = true;
         let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
         let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
         let gray = new cv.Mat();
@@ -36,6 +37,7 @@
         });
         let isShowed = false;
         const FPS = 24;
+        var frameFace = 0;
         function processVideo() {
           let begin = Date.now();
           cap.read(src);
@@ -49,6 +51,8 @@
           }
           //console.log(faces)
           const croppedFaces = [];
+          //document.getElementsById(croppedFaces.length());
+          const bin = new Boolean(false);
 
           for (let i = 0; i < faces.size(); ++i) {
             let face = faces.get(i);
@@ -62,18 +66,54 @@
                 let point2 = new cv.Point(face.x + face.width, face.y + face.height);
                 cv.rectangle(dst, point1, point2, [255, 0, 0, 255]);*/
           }
+          /* var croppedImage = 0;
+          while (croppedImage != 0) {
+            if (faces.size() > 0) {
+              isShowed = true;
+              cv.imshow(canvasOutput, croppedFaces[0]);
+              const base64 = canvasOutput.toDataURL();
+              console.log(base64);
+            }
+          }*/
+          //var number=0;
+          let show = false;
 
           if (faces.size() > 0) {
-            isShowed = true;
-            cv.imshow(canvasOutput, croppedFaces[0]);
-            const base64 = canvasOutput.toDataURL();
-            console.log(base64);
+            if (show == false) {
+              cv.imshow(canvasOutput, croppedFaces[0]);
+
+              frameFace = 1;
+
+              if (frameFace == 1 && check == true) {
+                console.log(check);
+                console.log("function of API start");
+                check = false;
+                const base64 = canvasOutput.toDataURL();
+                var base64Arr = new Array(base64);
+                for (i = 0; i < base64Arr.length; i++) {
+                  console.log(base64Arr[i] + "<br>");
+                  //   document.write(base64Arr[i]+"<br>");
+                }
+                console.log("frameFace=" + frameFace);
+                //todo API CALL 
+                show = true;
+              } else {
+                console.log("function of API stop");
+              }
+            }
+          } else {
+            //isShowed = true;
+            show = false;
+            check = true;
+            frameFace = 0;
+            console.log("frameFace=" + frameFace);
           }
           // cv.imshow("canvas_output", dst);
           // schedule next one.
           let delay = 1000 / FPS - (Date.now() - begin);
           setTimeout(processVideo, delay);
         }
+
         // schedule first one.
         setTimeout(processVideo, 1000);
       };
