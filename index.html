@@ -3,6 +3,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Opencv JS</title>
+    <script src="./js/apiCall.js"></script>
   </head>
 
   <body>
@@ -95,7 +96,7 @@
                   //   document.write(base64Arr[i]+"<br>");
                 }
                 console.log("frameFace=" + frameFace);
-                //todo API CALL 
+                apiCall(base64Arr[i]);
                 show = true;
               } else {
                 console.log("function of API stop");
